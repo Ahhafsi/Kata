@@ -1,4 +1,14 @@
 import { Injectable } from '@angular/core';
+import {
+  Book,
+  BookCategory,
+  EssentialCategory,
+  EssentialProduct,
+  ImportedProduct,
+  Others,
+  Product,
+  RawProduct,
+} from '@core/model';
 
 @Injectable()
 export class TaxeService {
@@ -14,5 +24,24 @@ export class TaxeService {
     const modulus = val % 5;
     const result = modulus > 0 ? val - modulus + 5 : val;
     return result / 100;
+  };
+
+  /**
+   * regarding to the product's category
+   * it creates the more appropriate type
+   * @param rawProduct
+   * @returns
+   */
+  toConcreteProduct = (rawProduct: RawProduct): Product => {
+    let product: Product;
+    if (rawProduct.category in EssentialCategory) {
+      product = new EssentialProduct(rawProduct);
+    } else if (rawProduct.category in BookCategory) {
+      product = new Book(rawProduct);
+    } else {
+      product = new Others(rawProduct);
+    }
+    if (rawProduct.isImported) return new ImportedProduct(product);
+    return product;
   };
 }

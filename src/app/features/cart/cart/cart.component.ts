@@ -10,7 +10,7 @@ import {
   RawProduct,
 } from '@core/model';
 import { CartService } from '@core/services/cart.service';
-import { Observable, map, withLatestFrom } from 'rxjs';
+import { Observable, map, withLatestFrom, tap } from 'rxjs';
 import { TaxeService } from '../taxe.service';
 
 @Component({
@@ -26,37 +26,29 @@ export class CartComponent {
   constructor(private service: CartService, private taxeService: TaxeService) {
     this.products$ = this.service.products$.pipe(
       map((products) =>
-        products.map((product) => this.toConcreteProduct(product))
+        products.map((product) => this.taxeService.toConcreteProduct(product))
       )
     );
 
     this.totalTaxes$ = this.products$.pipe(
       map((prods) =>
-        prods.map((prod) =>
-          this.taxeService.roundToFive((prod.price * prod.getTaxe()) / 100)
+        prods.map(
+          (prod) =>
+            prod.quantity *
+            this.taxeService.roundToFive(prod.price * (prod.getTaxe() / 100))
         )
       ),
-      map((prods) => prods.reduce((acc, curr) => acc + curr, 0))
+      map((taxe) => taxe.reduce((acc, curr) => acc + curr, 0)),
+      map((total) => this.taxeService.roundToFive(total))
     );
 
     this.totalPrice$ = this.products$.pipe(
-      map((prods) => prods.reduce((acc, curr) => acc + curr.price, 0)),
+      map((prods) =>
+        prods.reduce((acc, curr) => acc + curr.quantity * curr.price, 0)
+      ),
       withLatestFrom(this.totalTaxes$),
-      map(([prices, taxes]) => this.taxeService.roundToFive(prices + taxes))
+      map(([prices, taxes]) => prices + taxes),
+      map((total) => Math.trunc(total * 100) / 100)
     );
   }
-
-  // should be with concrete type
-  toConcreteProduct = (rawProduct: RawProduct): Product => {
-    let product: Product;
-    if (rawProduct.category in EssentialCategory) {
-      product = new EssentialProduct(rawProduct);
-    } else if (rawProduct.category in BookCategory) {
-      product = new Book(rawProduct);
-    } else {
-      product = new Others(rawProduct);
-    }
-    if (rawProduct.isImported) return new ImportedProduct(product);
-    return product;
-  };
 }

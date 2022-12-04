@@ -1,7 +1,7 @@
 <div class="box details flex">
   <div>Product: {{ product.productName }}</div>
   <div>Quantity: {{ product.quantity }}</div>
-  <div>TVA: {{ product.getTaxe() }} %</div>
+  <div>TVA: {{ product | taxe }} €</div>
   <div>HT: {{ product.price }} €</div>
   <div>TTC: {{ netValue }} €</div>
 </div>
