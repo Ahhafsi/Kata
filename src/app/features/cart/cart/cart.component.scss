@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.emptyCart {
+  font-size: x-large;
+  color: #3f525c;
+  align-self: center;
+}
+
+.summary {
+  margin: 50px;
+}

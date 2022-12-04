@@ -1,0 +1,17 @@
+<div class="box details flex">
+  <div>Product: {{ product.productName }}</div>
+  <div>Quantity: {{ product.quantity }}</div>
+  <div>TVA: {{ product.getTaxe() }} %</div>
+  <div>HT: {{ product.price }} €</div>
+  <div>TTC: {{ netValue }} €</div>
+</div>
+
+<button
+  mat-icon-button
+  color="warn"
+  class="remove"
+  aria-label="Example icon button with a home icon"
+  (click)="onRemoveProduct()"
+>
+  <mat-icon>remove_circle_outline</mat-icon>
+</button>

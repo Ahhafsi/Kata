@@ -1,0 +1,16 @@
+<div class="banner">
+  <a mat-button color="White" aria-label="Home" routerLink="/products">
+    <mat-icon>home</mat-icon>
+  </a>
+
+  <div class="spacer"></div>
+
+  <button mat-button color="White" aria-label="Cart" routerLink="/cart">
+    {{ selectedProductsCount$ | async }}
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+</div>
+
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

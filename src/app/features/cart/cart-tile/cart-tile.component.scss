@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box {
+  border: 1px solid #eee;
+  background-color: #fafafa;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+.details {
+  height: 15px;
+  width: 100%;
+  margin: 0 8px 16px;
+  padding: 16px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.remove {
+  color: red;
+  margin: 0 8px 16px;
+  align-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .flex {
+    flex-direction: column;
+  }
+  .details {
+    height: 150px;
+  }
+}

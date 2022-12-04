@@ -1,0 +1,39 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ product.productName }}</mat-card-title>
+    <mat-card-subtitle>
+      <b>Category: </b> {{ product.category }}</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <h3><b>Price: </b> {{ product.price }} €</h3>
+  </mat-card-content>
+  <mat-card-actions align="end" class="footer-actions">
+    <ng-container *ngIf="quantityOptions$ | async as options">
+      <select
+        [(ngModel)]="selectedQuantity"
+        class="select"
+        *ngIf="options.length > 1; else notAvailable"
+      >
+        <option *ngFor="let option of options" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+
+      <ng-template #notAvailable>
+        <h3>Not Available</h3>
+      </ng-template>
+    </ng-container>
+
+    <button
+      mat-button
+      class="addAction"
+      aria-label="Add"
+      [disabled]="selectedQuantity === 0"
+      (click)="addToCart()"
+    >
+      Add
+      <mat-icon>add_shopping_cart</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

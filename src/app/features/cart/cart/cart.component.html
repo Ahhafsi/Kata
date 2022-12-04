@@ -1,0 +1,17 @@
+<ng-container *ngIf="products$ | async as products; else emptyCart">
+  <ng-container *ngIf="products.length; else emptyCart">
+    <app-cart-tile
+      *ngFor="let product of products"
+      [product]="product"
+    ></app-cart-tile>
+    <div class="box summary">
+      <div><b>Total Taxe:</b> {{ totalTaxes$ | async }} €</div>
+      <div><b>Total Price:</b> {{ totalPrice$ | async }} €</div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyCart>
+  <div class="emptyCart"><mat-icon>block</mat-icon></div>
+  <div class="emptyCart">Empty Cart</div>
+</ng-template>
